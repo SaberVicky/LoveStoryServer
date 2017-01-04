@@ -19,6 +19,7 @@ class GetPublishHandler(tornado.web.RequestHandler):
         sql = "select * from T_Publish_Text where user_account = '%s' order by id desc limit 4,2" % account
         cursor.execute(sql)
         result = cursor.fetchone()
+        print(result)
         db.commit()
         db.close()
         self.write(json.dumps(result))
