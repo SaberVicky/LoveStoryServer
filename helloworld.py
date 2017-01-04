@@ -18,11 +18,22 @@ class GetPublishHandler(tornado.web.RequestHandler):
         cursor.execute('SET character_set_connection=utf8;')
         sql = "select * from T_Publish_Text where user_account = '%s' order by id desc limit 10" % account
         cursor.execute(sql)
-        result = cursor.fetchall()
-        print(result)
+        outResult = ()
+        i = 0
+        for data in cur.fetchall()
+            out_content = data[2]
+            out_time = data[3]
+            result = {
+                time : out_time,
+                content: out_content
+            }
+            outResult[i] = result
+            i++
+
+
         db.commit()
         db.close()
-        self.write(json.dumps(result))
+        self.write(json.dumps(outResult))
 
 class PublishHandler(tornado.web.RequestHandler):
     def get(self):
