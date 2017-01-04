@@ -18,7 +18,7 @@ class GetPublishHandler(tornado.web.RequestHandler):
         cursor.execute('SET character_set_connection=utf8;')
         sql = "select * from T_Publish_Text where user_account = '%s' order by id desc limit 10" % account
         cursor.execute(sql)
-        outResult = dic()
+        outResult = dict()
         i = 0
         for data in cursor.fetchall():
             out_content = data[2]
