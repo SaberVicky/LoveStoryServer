@@ -15,7 +15,12 @@ class PublishHandler(tornado.web.RequestHandler):
         publishtime = time.time()
 
         db = MySQLdb.connect("127.0.0.1","root","sl2887729","test")
+        db.set_character_set('utf8')
+        db.set_character_set('utf8')
         cursor = db.cursor()
+        cursor.execute('SET NAMES utf8;')
+        cursor.execute('SET CHARACTER SET utf8;')
+        cursor.execute('SET character_set_connection=utf8;')
         sql = "INSERT INTO T_Publish_Text(user_account, publish_content, publish_time) VALUES ('%s', '%s', '%s')"  % (account, text, publishtime)
         cursor.execute(sql)
         db.commit()
