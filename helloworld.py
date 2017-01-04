@@ -12,11 +12,11 @@ class PublishHandler(tornado.web.RequestHandler):
 
         text = self.get_argument('publish_text', None)
         account = self.get_argument('user_account', None)
-        time = time.time()
+        publishtime = time.time()
 
         db = MySQLdb.connect("127.0.0.1","root","sl2887729","test")
         cursor = db.cursor()
-        sql = "INSERT INTO T_Publish_Text(user_account, publish_content, publish_time) VALUES ('%s', '%s', '%s')"  % (account, text, time)
+        sql = "INSERT INTO T_Publish_Text(user_account, publish_content, publish_time) VALUES ('%s', '%s', '%s')"  % (account, text, publishtime)
         cursor.execute(sql)
         db.commit()
         db.close()
