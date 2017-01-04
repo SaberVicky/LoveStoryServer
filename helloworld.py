@@ -28,7 +28,7 @@ class GetPublishHandler(tornado.web.RequestHandler):
                 content: out_content
             }
             outResult[i] = result
-            i++
+            i = i + 1
 
 
         db.commit()
