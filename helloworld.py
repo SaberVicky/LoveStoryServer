@@ -33,7 +33,7 @@ class GetPublishHandler(tornado.web.RequestHandler):
 
         db.commit()
         db.close()
-        self.write(json.dumps(outResult))
+        self.write(json.dumps({data: outResult})
 
 class PublishHandler(tornado.web.RequestHandler):
     def get(self):
