@@ -20,7 +20,7 @@ class GetPublishHandler(tornado.web.RequestHandler):
         cursor.execute(sql)
         outResult = ()
         i = 0
-        for data in cur.fetchall():
+        for data in cursor.fetchall():
             out_content = data[2]
             out_time = data[3]
             result = {
