@@ -20,20 +20,20 @@ class GetPublishHandler(tornado.web.RequestHandler):
         cursor.execute(sql)
         outResult = []
         i = 0
-        for data in cursor.fetchall():
-            out_content = data[2]
-            out_time = data[3]
+        for dbData in cursor.fetchall():
+            out_content = dbData[2]
+            out_time = dbData[3]
             result = {
                 "time" : out_time,
                 "content" : out_content
             }
-            outResult.append({"data": result})
+            outResult.append(result)
             i = i + 1
 
 
         db.commit()
         db.close()
-        self.write(json.dumps({data: outResult}))
+        self.write(json.dumps({"data": outResult}))
 
 class PublishHandler(tornado.web.RequestHandler):
     def get(self):
