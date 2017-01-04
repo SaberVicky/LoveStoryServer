@@ -24,8 +24,8 @@ class GetPublishHandler(tornado.web.RequestHandler):
             out_content = data[2]
             out_time = data[3]
             result = {
-                time : out_time,
-                content: out_content
+                "time" : out_time,
+                "content" : out_content
             }
             outResult[i] = result
             i = i + 1
