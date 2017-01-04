@@ -27,7 +27,7 @@ class GetPublishHandler(tornado.web.RequestHandler):
                 "time" : out_time,
                 "content" : out_content
             }
-            outResult.append((i, result))
+            outResult.append(result)
             i = i + 1
 
 
