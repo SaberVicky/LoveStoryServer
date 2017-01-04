@@ -6,6 +6,22 @@ import MySQLdb
 import os
 import time
 
+class GetPublishHandler(tornado.web.RequestHandler):
+    def get(self):
+        account = self.get_argument('user_account', None)
+        db = MySQLdb.connect("127.0.0.1","root","sl2887729","test")
+        db.set_character_set('utf8')
+        db.set_character_set('utf8')
+        cursor = db.cursor()
+        cursor.execute('SET NAMES utf8;')
+        cursor.execute('SET CHARACTER SET utf8;')
+        cursor.execute('SET character_set_connection=utf8;')
+        sql = "select * from T_Publish_Text where user_account = '%s' order by id desc limit 4,2" % account
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        db.commit()
+        db.close()
+        self.write(json.dumps(result))
 
 class PublishHandler(tornado.web.RequestHandler):
     def get(self):
@@ -95,6 +111,7 @@ application = tornado.web.Application([
     (r"/publish", PublishHandler),
     (r"/register", RegisterHandler),
     (r"/login", LoginHandler),
+    (r"/get_publish", GetPublishHandler),
 ])
 
 
