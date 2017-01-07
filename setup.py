@@ -11,7 +11,8 @@ setup(name='sns',
       license='PRIVATE',
       packages=['sns'],
       install_requires=[
-              'redis',
+          'redis',
+          'MySQL-python',
       ],
       entry_points={
           'console_scripts': [
