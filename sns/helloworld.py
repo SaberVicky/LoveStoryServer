@@ -1,10 +1,11 @@
-#-*- coding:utf-8 -*-
+# coding: utf-8
+
 import tornado.ioloop
 import tornado.web
 import json
 import MySQLdb
-import os
 import time
+
 
 class GetPublishHandler(tornado.web.RequestHandler):
     def get(self):
