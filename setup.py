@@ -13,8 +13,10 @@ setup(name='sns',
       install_requires=[
           'redis',
           'MySQL-python',
+          'tornado',
       ],
       entry_points={
           'console_scripts': [
+              "sns = sns.main:main",
           ],
       },)

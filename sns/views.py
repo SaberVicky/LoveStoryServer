@@ -1,10 +1,19 @@
-#-*- coding:utf-8 -*-
-import tornado.ioloop
-import tornado.web
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Author: Chunyang Guo
+#
+# Copyright (C) 2016 Zhihu Inc.
+
+from __future__ import absolute_import
+
 import json
-import MySQLdb
-import os
 import time
+
+import tornado.web
+
+import MySQLdb
+
 
 class GetPublishHandler(tornado.web.RequestHandler):
     def get(self):
@@ -35,6 +44,7 @@ class GetPublishHandler(tornado.web.RequestHandler):
         db.close()
         self.write(json.dumps({"data": outResult}))
 
+
 class PublishHandler(tornado.web.RequestHandler):
     def get(self):
 
@@ -60,6 +70,7 @@ class PublishHandler(tornado.web.RequestHandler):
         }
         self.write(json.dumps(result))
 
+
 class LoginHandler(tornado.web.RequestHandler):
     def post(self):
         a = self.get_argument('user_account', None)
@@ -73,7 +84,7 @@ class LoginHandler(tornado.web.RequestHandler):
         db.commit()
         db.close()
 
-        
+
         if count == 1:
             result = {
             "ret" : 1,
@@ -86,7 +97,6 @@ class LoginHandler(tornado.web.RequestHandler):
             }
 
         self.write(json.dumps(result))
-
 
 
 class RegisterHandler(tornado.web.RequestHandler):
@@ -115,19 +125,5 @@ class RegisterHandler(tornado.web.RequestHandler):
             cursor.execute(sql)
 
         db.commit()
-        db.close()  
+        db.close()
         self.write(json.dumps(result))
-        
-
-application = tornado.web.Application([
-    (r"/publish", PublishHandler),
-    (r"/register", RegisterHandler),
-    (r"/login", LoginHandler),
-    (r"/get_publish", GetPublishHandler),
-])
-
-
-if __name__ == "__main__":
-    application.listen(8080)
-    print "开启服务器"
-    tornado.ioloop.IOLoop.instance().start()
