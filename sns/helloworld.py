@@ -127,7 +127,7 @@ application = tornado.web.Application([
 ])
 
 
-if __name__ == "__main__":
+def main():
     application.listen(8080)
     print "开启服务器"
     tornado.ioloop.IOLoop.instance().start()

@@ -16,5 +16,6 @@ setup(name='sns',
       ],
       entry_points={
           'console_scripts': [
+              "sns = sns.helloworld:main",
           ],
       },)
