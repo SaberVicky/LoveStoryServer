@@ -8,7 +8,7 @@ from sns.urls import urls
 
 
 def main():
-    application = Application(urls)
+    application = Application(urls, cookie_secret="61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=")
     application.listen(8080)
     print "开启服务器"
     tornado.ioloop.IOLoop.instance().start()

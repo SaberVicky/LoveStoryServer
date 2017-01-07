@@ -13,10 +13,26 @@ import time
 import tornado.web
 
 import MySQLdb
+from sns import wrapper
+
+
+class BaseHandler(tornado.web.RequestHandler):
+    def get_current_user(self):
+        user_id = self.get_secure_cookie("user_id")
+        # 这里去数据库查询用户
+        return None
+
+    def login(self, user_id):
+        self.set_secure_cookie("user_id", str(user_id))
+
+    def get_login_url(self):
+        return '/login'
 
 
 class GetPublishHandler(tornado.web.RequestHandler):
+    @wrapper.check_login
     def get(self):
+
         account = self.get_argument('user_account', None)
         db = MySQLdb.connect("127.0.0.1","root","sl2887729","test")
         db.set_character_set('utf8')
