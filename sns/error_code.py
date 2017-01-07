@@ -8,9 +8,4 @@
 from __future__ import absolute_import
 
 
-def get_mysql_conn():
-    pass
-
-
-def get_user():
-    pass
+UNLOGIN = 1001
