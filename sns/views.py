@@ -9,12 +9,17 @@ from __future__ import absolute_import
 
 import json
 import time
-
 import tornado.web
-
 import MySQLdb
+import uuid 
 from sns import wrapper
 
+from qiniu import Auth, put_file, etag, urlsafe_base64_encode
+import qiniu.config
+
+qiniu_access_key = 'pY-VZRw7ynreklOFs-KuHWzpxGFIg8rssrSkpcwV'
+qiniu_secret_key = 'lESmFWIsNz9s4bt2Y7XV47blCb4e65lsOo9qzJPf'
+qiniu_bucket_name = 'lovestory'
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -27,6 +32,21 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def get_login_url(self):
         return '/login'
+
+
+class RequestQiNiuParams(tornado.web.RequestHandler):
+    def get(self):
+        q = Auth(qiniu_access_key, qiniu_secret_key)
+        bucket = qiniu_bucket_name
+        key = uuid.uuid1().hex + '.png' 
+        token = q.upload_token(bucket, key, 3600)
+        result = {
+            'ret' : 1,
+            'token' : token,
+            'key' : key,
+            'bucket' : bucket
+        }
+        self.write(json.dumps(result))
 
 
 class GetPublishHandler(tornado.web.RequestHandler):
