@@ -20,18 +20,19 @@ import qiniu.config
 qiniu_access_key = 'pY-VZRw7ynreklOFs-KuHWzpxGFIg8rssrSkpcwV'
 qiniu_secret_key = 'lESmFWIsNz9s4bt2Y7XV47blCb4e65lsOo9qzJPf'
 qiniu_bucket_name = 'lovestory'
+qiniu_img_url = 'http://ojae83ylm.bkt.clouddn.com/'
 
-class BaseHandler(tornado.web.RequestHandler):
-    def get_current_user(self):
-        user_id = self.get_secure_cookie("user_id")
-        # 这里去数据库查询用户
-        return None
+# class BaseHandler(tornado.web.RequestHandler):
+#     def get_current_user(self):
+#         user_id = self.get_secure_cookie("user_id")
+#         # 这里去数据库查询用户
+#         return None
 
-    def login(self, user_id):
-        self.set_secure_cookie("user_id", str(user_id))
+#     def login(self, user_id):
+#         self.set_secure_cookie("user_id", str(user_id))
 
-    def get_login_url(self):
-        return '/login'
+#     def get_login_url(self):
+#         return '/login'
 
 
 class RequestQiNiuParams(tornado.web.RequestHandler):
@@ -40,17 +41,19 @@ class RequestQiNiuParams(tornado.web.RequestHandler):
         bucket = qiniu_bucket_name
         key = uuid.uuid1().hex + '.png' 
         token = q.upload_token(bucket, key, 3600)
+        img_url = qiniu_img_url + key
         result = {
             'ret' : 1,
             'token' : token,
             'key' : key,
-            'bucket' : bucket
+            'bucket' : bucket,
+            'img_url' : img_url 
         }
         self.write(json.dumps(result))
 
 
 class GetPublishHandler(tornado.web.RequestHandler):
-    @wrapper.check_login
+    # @wrapper.check_logi
     def get(self):
 
         account = self.get_argument('user_account', None)
@@ -86,6 +89,7 @@ class PublishHandler(tornado.web.RequestHandler):
 
         text = self.get_argument('publish_text', None)
         account = self.get_argument('user_account', None)
+        img_url = self.get_argument('img_url', None)
         publishtime = time.time()
 
         db = MySQLdb.connect("127.0.0.1","root","sl2887729","test")
@@ -95,7 +99,7 @@ class PublishHandler(tornado.web.RequestHandler):
         cursor.execute('SET NAMES utf8;')
         cursor.execute('SET CHARACTER SET utf8;')
         cursor.execute('SET character_set_connection=utf8;')
-        sql = "INSERT INTO T_Publish_Text(user_account, publish_content, publish_time) VALUES ('%s', '%s', '%s')"  % (account, text, publishtime)
+        sql = "INSERT INTO T_Publish(user_account, publish_content, publish_time, publish_img_url) VALUES ('%s', '%s', '%s', '%s')"  % (account, text, publishtime, img_url)
         cursor.execute(sql)
         db.commit()
         db.close()
