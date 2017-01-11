@@ -17,7 +17,7 @@ from sns import wrapper
 from qiniu import Auth, put_file, etag, urlsafe_base64_encode
 import qiniu.config
 
-db_password = ""
+db_password = "sl2887729"
 
 qiniu_access_key = 'pY-VZRw7ynreklOFs-KuHWzpxGFIg8rssrSkpcwV'
 qiniu_secret_key = 'lESmFWIsNz9s4bt2Y7XV47blCb4e65lsOo9qzJPf'
