@@ -17,6 +17,8 @@ from sns import wrapper
 from qiniu import Auth, put_file, etag, urlsafe_base64_encode
 import qiniu.config
 
+db_password = ""
+
 qiniu_access_key = 'pY-VZRw7ynreklOFs-KuHWzpxGFIg8rssrSkpcwV'
 qiniu_secret_key = 'lESmFWIsNz9s4bt2Y7XV47blCb4e65lsOo9qzJPf'
 qiniu_bucket_name = 'lovestory'
@@ -57,23 +59,26 @@ class GetPublishHandler(tornado.web.RequestHandler):
     def get(self):
 
         account = self.get_argument('user_account', None)
-        db = MySQLdb.connect("127.0.0.1","root","sl2887729","test")
+
+        db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
         db.set_character_set('utf8')
         db.set_character_set('utf8')
         cursor = db.cursor()
         cursor.execute('SET NAMES utf8;')
         cursor.execute('SET CHARACTER SET utf8;')
         cursor.execute('SET character_set_connection=utf8;')
-        sql = "select * from T_Publish_Text where user_account = '%s' order by id desc limit 10" % account
+        sql = "select * from T_Publish where user_account = '%s' order by id desc limit 10" % account
         cursor.execute(sql)
         outResult = []
         i = 0
         for dbData in cursor.fetchall():
             out_content = dbData[2]
             out_time = dbData[3]
+            out_img_url = dbData[4]
             result = {
                 "time" : out_time,
-                "content" : out_content
+                "content" : out_content,
+                "img_url" : out_img_url
             }
             outResult.append(result)
             i = i + 1
@@ -92,7 +97,7 @@ class PublishHandler(tornado.web.RequestHandler):
         img_url = self.get_argument('img_url', None)
         publishtime = time.time()
 
-        db = MySQLdb.connect("127.0.0.1","root","sl2887729","test")
+        db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
         db.set_character_set('utf8')
         db.set_character_set('utf8')
         cursor = db.cursor()
@@ -116,7 +121,7 @@ class LoginHandler(tornado.web.RequestHandler):
         a = self.get_argument('user_account', None)
         b = self.get_argument('user_password', None)
 
-        db = MySQLdb.connect("127.0.0.1","root","sl2887729","test")
+        db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
         cursor = db.cursor();
         sql1 = "select count(*) from T_User where user_account = '%s' and user_password = '%s'" % (a, b)
         cursor.execute(sql1)
@@ -144,7 +149,7 @@ class RegisterHandler(tornado.web.RequestHandler):
         a = self.get_argument('user_account', None)
         b = self.get_argument('user_password', None)
 
-        db = MySQLdb.connect("127.0.0.1","root","sl2887729","test")
+        db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
         cursor = db.cursor();
         sql1 = "select count(*) from T_User where user_account = '%s'" % a
         cursor.execute(sql1)
