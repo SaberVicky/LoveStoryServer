@@ -45,6 +45,8 @@ class RequestQiNiuParams(tornado.web.RequestHandler):
         key = uuid.uuid1().hex + '.png' 
         if type == 'sound':
             key = uuid.uuid1().hex + '.caf'
+        if type == 'video':
+            key = uuid.uuid1().hex + '.mov'
         token = q.upload_token(bucket, key, 3600)
         img_url = qiniu_img_url + key
         result = {
