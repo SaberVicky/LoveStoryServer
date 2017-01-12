@@ -39,9 +39,12 @@ qiniu_img_url = 'http://ojae83ylm.bkt.clouddn.com/'
 
 class RequestQiNiuParams(tornado.web.RequestHandler):
     def get(self):
+        type = self.get_argument('type', None)
         q = Auth(qiniu_access_key, qiniu_secret_key)
-        bucket = qiniu_bucket_name
+        bucket = qiniu_bucket_name    
         key = uuid.uuid1().hex + '.png' 
+        if type == 'sound':
+            key = uuid.uuid1().hex + '.caf'
         token = q.upload_token(bucket, key, 3600)
         img_url = qiniu_img_url + key
         result = {
