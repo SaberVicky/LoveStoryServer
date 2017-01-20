@@ -162,7 +162,7 @@ class RegisterHandler(tornado.web.RequestHandler):
 
         db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
         cursor = db.cursor();
-        sql1 = "select count(*) from T_User where user_account = '%s'" % a
+        sql1 = "select count(*) from T_User where user_account = '%s'" % account
         cursor.execute(sql1)
         count = cursor.fetchone()[0]
         if count > 0:
