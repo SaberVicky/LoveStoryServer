@@ -199,7 +199,7 @@ class RegisterHandler(tornado.web.RequestHandler):
             "msg" : "注册成功"
             }
             sql2 = "select max(user_inviteCode) from T_User"
-            cursor.execute(sq2)
+            cursor.execute(sql2)
             inviteCode = cursor.fetchone()[0]
             inviteCode = inviteCode + 1  
 
