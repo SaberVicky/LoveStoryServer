@@ -148,7 +148,7 @@ class LoginHandler(tornado.web.RequestHandler):
                 "msg" : "登录成功"
             }
 
-        if count = 0:
+        if count == 0:
             outResult = {
             "ret" : 0,
             "msg" : "登录失败"
