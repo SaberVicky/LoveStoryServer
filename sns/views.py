@@ -142,7 +142,8 @@ class LoginHandler(tornado.web.RequestHandler):
                     "user_sex": singleData[5],
                     "user_avator": singleData[6],
                     "user_huanXinAccount": singleData[8],
-                    "user_huanXinPassword": singleData[9]
+                    "user_huanXinPassword": singleData[9],
+                    "user_inviteCode" : singleData[10]
                 },
                 "ret" : 1,
                 "msg" : "登录成功"
@@ -197,7 +198,12 @@ class RegisterHandler(tornado.web.RequestHandler):
             "count" : count,
             "msg" : "注册成功"
             }
-            sql = "INSERT INTO T_User(user_account, user_password, user_sex, user_birthday, user_huanXinAccount, user_huanXinPassword, user_name, user_avator) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"  % (account, password, sex, birthday, huanXinAccount, huanXinPassword, name, avator)
+            sql2 = "select max(user_inviteCode) from T_User"
+            cursor.execute(sq2)
+            inviteCode = cursor.fetchone()[0]
+            inviteCode = inviteCode + 1  
+
+            sql = "INSERT INTO T_User(user_account, user_password, user_sex, user_birthday, user_huanXinAccount, user_huanXinPassword, user_name, user_avator, user_inviteCode) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"  % (account, password, sex, birthday, huanXinAccount, huanXinPassword, name, avator, inviteCode)
             cursor.execute(sql)
 
         db.commit()
