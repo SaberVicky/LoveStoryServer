@@ -177,7 +177,7 @@ class RegisterHandler(tornado.web.RequestHandler):
             "count" : count,
             "msg" : "注册成功"
             }
-            sql = "INSERT INTO T_User(user_account, user_password, user_sex, user_birthday, user_huanXinAccount, user_huanXinPassword, user_name, user_avator) VALUES ('%s', '%s', '%s')"  % (account, password, sex, birthday, huanXinAccount, huanXinPassword, name, avator)
+            sql = "INSERT INTO T_User(user_account, user_password, user_sex, user_birthday, user_huanXinAccount, user_huanXinPassword, user_name, user_avator) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"  % (account, password, sex, birthday, huanXinAccount, huanXinPassword, name, avator)
             cursor.execute(sql)
 
         db.commit()
