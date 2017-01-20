@@ -197,9 +197,10 @@ class RegisterHandler(tornado.web.RequestHandler):
             sql2 = "select max(user_inviteCode) from T_User"
             cursor.execute(sql2)
             inviteCode = cursor.fetchone()[0]
-            inviteCode = inviteCode + 1 
-            if inviteCode == 1:
+            if inviteCode == None:
                 inviteCode = 100000
+            else:
+                inviteCode = inviteCode + 1 
             sql3 =  "select max(id) from T_User"
             cursor.execute(sql3)
             user_id =  cursor.fetchone()[0]
