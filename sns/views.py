@@ -88,7 +88,6 @@ class GetPublishHandler(tornado.web.RequestHandler):
             outResult.append(result)
             i = i + 1
 
-
         db.commit()
         db.close()
         self.write(json.dumps({"data": outResult}))
@@ -151,8 +150,15 @@ class LoginHandler(tornado.web.RequestHandler):
 
 class RegisterHandler(tornado.web.RequestHandler):
     def post(self):
-        a = self.get_argument('user_account', None)
-        b = self.get_argument('user_password', None)
+        account = self.get_argument('user_account', None)
+        password = self.get_argument('user_password', None)
+        sex = self.get_argument('user_sex', None)
+        birthday = self.get_argument('user_birthday', None)
+        huanXinAccount = self.get_argument('user_huanXinAccount', None)
+        huanXinPassword = self.get_argument('user_huanXinPassword', None)
+        name = self.get_argument('user_name', None)
+        avator = self.get_argument('user_avator', None)
+
 
         db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
         cursor = db.cursor();
@@ -171,7 +177,7 @@ class RegisterHandler(tornado.web.RequestHandler):
             "count" : count,
             "msg" : "注册成功"
             }
-            sql = "INSERT INTO T_User(user_account, user_password) VALUES ('%s', '%s')"  % (a, b)
+            sql = "INSERT INTO T_User(user_account, user_password, user_sex, user_birthday, user_huanXinAccount, user_huanXinPassword, user_name, user_avator) VALUES ('%s', '%s', '%s')"  % (account, password, sex, birthday, huanXinAccount, huanXinPassword, name, avator)
             cursor.execute(sql)
 
         db.commit()
