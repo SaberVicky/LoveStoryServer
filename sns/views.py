@@ -136,6 +136,7 @@ class LoginHandler(tornado.web.RequestHandler):
             count = count + 1
             outResult = {
                 "data" : {
+                    "user_id": singleData[0],
                     "user_account": singleData[1],
                     "user_name": singleData[3],
                     "user_birthday": singleData[4],
