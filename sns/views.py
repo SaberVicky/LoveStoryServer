@@ -194,15 +194,16 @@ class RegisterHandler(tornado.web.RequestHandler):
             "msg" : "该账号已经被注册"
             }
         else:
-            result = {
-            "ret" : 1,
-            "count" : count,
-            "msg" : "注册成功"
-            }
             sql2 = "select max(user_inviteCode) from T_User"
             cursor.execute(sql2)
             inviteCode = cursor.fetchone()[0]
-            inviteCode = inviteCode + 1  
+            inviteCode = inviteCode + 1 
+            result = {
+            "ret" : 1,
+            "count" : count,
+            "msg" : "注册成功",
+            "inviteCode": inviteCode
+            } 
 
             sql = "INSERT INTO T_User(user_account, user_password, user_sex, user_birthday, user_huanXinAccount, user_huanXinPassword, user_name, user_avator, user_inviteCode) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"  % (account, password, sex, birthday, huanXinAccount, huanXinPassword, name, avator, inviteCode)
             cursor.execute(sql)
