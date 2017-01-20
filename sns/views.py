@@ -127,25 +127,40 @@ class LoginHandler(tornado.web.RequestHandler):
 
         db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
         cursor = db.cursor();
-        sql1 = "select count(*) from T_User where user_account = '%s' and user_password = '%s'" % (a, b)
+        sql1 = "select * from T_User where user_account = '%s' and user_password = '%s'" % (a, b)
         cursor.execute(sql1)
-        count = cursor.fetchone()[0]
+        count = 0
+        data = cursor.fetchall()
+        outResult = {}
+        for singleData in data:
+            count = count + 1
+            outResult = {
+                "data" : {
+                    "user_account": singleData[1],
+                    "user_name": singleData[3],
+                    "user_birthday": singleData[4],
+                    "user_sex": singleData[5],
+                    "user_avator": singleData[6],
+                    "user_huanXinAccount": singleData[8],
+                    "user_huanXinPassword": singleData[9]
+                },
+                "ret" : 1,
+                "msg" : "登录成功"
+            }
+
+        if count = 0:
+            outResult = {
+            "ret" : 0,
+            "msg" : "登录失败"
+            }
+                    
         db.commit()
         db.close()
 
 
-        if count == 1:
-            result = {
-            "ret" : 1,
-            "msg" : "登录成功"
-            }
-        else:
-            result = {
-            "ret" : 0,
-            "msg" : "登录失败"
-            }
+       
 
-        self.write(json.dumps(result))
+        self.write(json.dumps(outResult))
 
 
 class RegisterHandler(tornado.web.RequestHandler):
@@ -161,7 +176,12 @@ class RegisterHandler(tornado.web.RequestHandler):
 
 
         db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
+        db.set_character_set('utf8')
+        db.set_character_set('utf8')
         cursor = db.cursor();
+        cursor.execute('SET NAMES utf8;')
+        cursor.execute('SET CHARACTER SET utf8;')
+        cursor.execute('SET character_set_connection=utf8;')
         sql1 = "select count(*) from T_User where user_account = '%s'" % account
         cursor.execute(sql1)
         count = cursor.fetchone()[0]
