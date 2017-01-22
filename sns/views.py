@@ -250,9 +250,9 @@ class PairHandler(tornado.web.RequestHandler):
                 otherCoupleAccount = otherData[7]
                 otherInviteCode = otherData[10]
                 if (otherCoupleAccount == "" or otherCoupleAccount == None):
-                    sql3 = "UPDATE T_User SET coupleAccount = '%s' WHERE user_account = '%s'" % (otherAccount, account)
+                    sql3 = "UPDATE T_User SET couple_account = '%s' WHERE user_account = '%s'" % (otherAccount, account)
                     cursor.execute(sql3)
-                    sql3 = "UPDATE T_User SET coupleAccount = '%s' WHERE user_account = '%s'" % (account, otherAccount)
+                    sql3 = "UPDATE T_User SET couple_account = '%s' WHERE user_account = '%s'" % (account, otherAccount)
                     cursor.execute(sql4)
                     result = {
                        "ret": 1,
