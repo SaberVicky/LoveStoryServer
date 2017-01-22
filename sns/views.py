@@ -248,6 +248,8 @@ class PairHandler(tornado.web.RequestHandler):
                 otherData = cursor.fetchone()
                 otherAccount = otherData[1]
                 otherCoupleAccount = otherData[7]
+                otherCoupleName = otherData[3]
+                otherCoupleAvator = otherData[6]
                 otherInviteCode = otherData[10]
                 if (otherCoupleAccount == "" or otherCoupleAccount == None):
                     sql3 = "UPDATE T_User SET couple_account = '%s' WHERE user_account = '%s'" % (otherAccount, account)
@@ -256,7 +258,12 @@ class PairHandler(tornado.web.RequestHandler):
                     cursor.execute(sql4)
                     result = {
                        "ret": 1,
-                       "msg": "绑定成功"
+                       "msg": "绑定成功",
+                       "data" : {
+                            "couple_account" : otherCoupleAccount,
+                            "couple_name" : otherCoupleName,
+                            "couple_avator": otherCoupleAvator 
+                       }
                     }
                 else:
                     result = {
