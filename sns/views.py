@@ -216,3 +216,60 @@ class RegisterHandler(tornado.web.RequestHandler):
         db.commit()
         db.close()
         self.write(json.dumps(result))
+
+class PairHandler(tornado.web.RequestHandler):
+    def get(self):
+        account = self.get_argument('user_account', None)
+        invitedCode = self.get_argument('inviteCode', None)
+        db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
+        db.set_character_set('utf8')
+        db.set_character_set('utf8')
+        cursor = db.cursor()
+        cursor.execute('SET NAMES utf8;')
+        cursor.execute('SET CHARACTER SET utf8;')
+        cursor.execute('SET character_set_connection=utf8;')
+        sql = "select * from T_User where user_account = '%s'" % account
+        cursor.execute(sql)
+        data = cursor.fetchone()
+        result = {}
+        if data == None:
+            result = {
+                "ret": 0,
+                "msg": "邀请码错误"
+            }
+            db.commit()
+            db.close()
+            self.write(json.dumps(result))
+        else: 
+            coupleAccount = data[7]
+            if (coupleAccount == "" or coupleAccount == None):
+                sql2 = "select * from T_User where user_inviteCode = '%s'" % invitedCode
+                cursor.execute(sql2)
+                otherData = cursor.fetchone()
+                otherAccount = otherData[1]
+                otherCoupleAccount = otherData[7]
+                otherInviteCode = otherData[10]
+                if (otherCoupleAccount == "" or otherCoupleAccount == None):
+                    sql3 = "UPDATE T_User SET coupleAccount = '%s' WHERE user_account = '%s'" % (otherAccount, account)
+                    cursor.execute(sql3)
+                    sql3 = "UPDATE T_User SET coupleAccount = '%s' WHERE user_account = '%s'" % (account, otherAccount)
+                    cursor.execute(sql4)
+                    result = {
+                       "ret": 1,
+                       "msg": "绑定成功"
+                    }
+                else:
+                    result = {
+                        "ret": 0,
+                        "msg": "对方已经绑定伴侣"
+                    }
+
+            else:
+                result = {
+                    "ret": 0,
+                    "msg": "您已经绑定伴侣"
+                }
+        
+        db.commit()
+        db.close()
+        self.write(json.dumps(result))
