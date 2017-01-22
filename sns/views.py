@@ -270,6 +270,6 @@ class PairHandler(tornado.web.RequestHandler):
                     "msg": "您已经绑定伴侣"
                 }
         
-        db.commit()
-        db.close()
-        self.write(json.dumps(result))
+            db.commit()
+            db.close()
+            self.write(json.dumps(result))
