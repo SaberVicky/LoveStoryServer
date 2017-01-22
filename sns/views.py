@@ -237,9 +237,6 @@ class PairHandler(tornado.web.RequestHandler):
                 "ret": 0,
                 "msg": "邀请码错误"
             }
-            db.commit()
-            db.close()
-            self.write(json.dumps(result))
         else: 
             coupleAccount = data[7]
             if (coupleAccount == "" or coupleAccount == None):
@@ -260,7 +257,7 @@ class PairHandler(tornado.web.RequestHandler):
                        "ret": 1,
                        "msg": "绑定成功",
                        "data" : {
-                            "couple_account" : otherCoupleAccount,
+                            "couple_account" : otherAccount,
                             "couple_name" : otherCoupleName,
                             "couple_avator": otherCoupleAvator 
                        }
@@ -277,6 +274,6 @@ class PairHandler(tornado.web.RequestHandler):
                     "msg": "您已经绑定伴侣"
                 }
         
-            db.commit()
-            db.close()
-            self.write(json.dumps(result))
+        db.commit()
+        db.close()
+        self.write(json.dumps(result))
