@@ -277,3 +277,39 @@ class PairHandler(tornado.web.RequestHandler):
         db.commit()
         db.close()
         self.write(json.dumps(result))
+
+class UserInfoHandler(tornado.web.RequestHandler):
+    def get(self):
+        account = self.get_argument('user_account', None)
+        db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
+        db.set_character_set('utf8')
+        db.set_character_set('utf8')
+        cursor = db.cursor()
+        cursor.execute('SET NAMES utf8;')
+        cursor.execute('SET CHARACTER SET utf8;')
+        cursor.execute('SET character_set_connection=utf8;')
+        sql = "select * from T_User where user_account = '%s'" % account
+        cursor.execute(sql1)
+        data = cursor.fetchone()
+        coupleAccount = data[7]
+        if (coupleAccount != None and coupleAccount != ""):
+            sql2 = "select * from T_User where user_account = '%s'" % coupleAccount
+            cursor.execute(sql2)
+            data2 = cursor.fetchone()
+            coupleAvator = data2[6]
+            coupleName = data2[3]
+            result = {
+                "ret": 1,
+                "couple_account" : otherAccount,
+                "couple_name" : otherCoupleName,
+                "couple_avator": otherCoupleAvator
+            }
+        else:
+            result = {
+                "ret": 0,
+                "msg": "该用户没有关联情侣"
+            }
+        db.commit()
+        db.close()
+        self.write(json.dumps(result))
+
