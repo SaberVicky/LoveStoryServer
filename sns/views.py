@@ -289,7 +289,7 @@ class UserInfoHandler(tornado.web.RequestHandler):
         cursor.execute('SET CHARACTER SET utf8;')
         cursor.execute('SET character_set_connection=utf8;')
         sql = "select * from T_User where user_account = '%s'" % account
-        cursor.execute(sql1)
+        cursor.execute(sql)
         data = cursor.fetchone()
         coupleAccount = data[7]
         if (coupleAccount != None and coupleAccount != ""):
