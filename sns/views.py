@@ -300,9 +300,9 @@ class UserInfoHandler(tornado.web.RequestHandler):
             coupleName = data2[3]
             result = {
                 "ret": 1,
-                "couple_account" : otherAccount,
-                "couple_name" : otherCoupleName,
-                "couple_avator": otherCoupleAvator
+                "couple_account" : coupleAccount,
+                "couple_name" : coupleName,
+                "couple_avator": coupleAvator
             }
         else:
             result = {
