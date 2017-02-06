@@ -7,7 +7,7 @@
 
 from __future__ import absolute_import
 
-from sns.views import PublishHandler, RegisterHandler, LoginHandler, GetPublishHandler, RequestQiNiuParams, PairHandler, UserInfoHandler
+from sns.views import PublishHandler, RegisterHandler, LoginHandler, GetPublishHandler, RequestQiNiuParams, PairHandler, UserInfoHandler, ReplyHandler, GetPeplyHandler
 
 urls = [
     (r"/publish", PublishHandler),
@@ -16,7 +16,9 @@ urls = [
     (r"/get_publish", GetPublishHandler),
     (r"/request_qiniu_params", RequestQiNiuParams),
     (r"/pair", PairHandler),
-    (r"/get_user_info", UserInfoHandler)
+    (r"/get_user_info", UserInfoHandler),
+    (r"/reply", ReplyHandler),
+    (r"/get_reply, GetPeplyHandler")
 ]
 
 

@@ -84,23 +84,23 @@ class GetPublishHandler(tornado.web.RequestHandler):
         data3 = cursor.fetchone()
         coupleAvator = data3[6]
 
-        sql = "select * from T_Publish where user_account = '%s' or user_account = '%s'  order by id desc limit 10" % (account, coupleAccount)
+        sql = "select * from T_Publish where user_account = '%s' or user_account = '%s'  order by id desc limit 100" % (account, coupleAccount)
         cursor.execute(sql)
         outResult = []
         i = 0
         for dbData in cursor.fetchall():
             out_content = dbData[2]
             out_time = dbData[3]
-            out_img_url = dbData[4]
             account = dbData[1]
+            publish_id = dbData[0]
             avator = ownAvator
             if account == coupleAccount:
                 avator = coupleAvator
 
             result = {
+                "publish_id" : publish_id,
                 "time" : out_time,
                 "content" : out_content,
-                "img_url" : out_img_url,
                 "avator" : avator
             }
             outResult.append(result)
@@ -332,3 +332,60 @@ class UserInfoHandler(tornado.web.RequestHandler):
         db.close()
         self.write(json.dumps(result))
 
+class ReplyHandler(tornado.web.RequestHandler):
+    def post(self):
+        account = self.get_argument('user_account', None)
+        publish_id = self.get_argument('publish_id', None)
+        reply_content = self.get_argument('replu_content', None)
+        publishtime = time.time()
+
+        db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
+        db.set_character_set('utf8')
+        db.set_character_set('utf8')
+        cursor = db.cursor();
+        cursor.execute('SET NAMES utf8;')
+        cursor.execute('SET CHARACTER SET utf8;')
+        cursor.execute('SET character_set_connection=utf8;')
+        sql1 = "INSERT INTO T_Reply(publish_id, reply_content, reply_account, reply_time) VALUES ('%s', '%s', '%s', '%s')" % (publish_id, reply_content, account, publishtime)
+        cursor.execute(sql1)
+
+        sql2 = "UPDATE T_Publish SET publish_reply_count = publish_reply_count + 1 WHERE id = '%s'" % publish_id
+        cursor.execute(sql2)
+
+        db.commit()
+        db.close()
+
+        result = {
+            "ret" : 1,
+            "msg" : "回复成功"
+        }
+        self.write(json.dumps(result))
+
+class GetPeplyHandler(tornado.web.RequestHandler):
+    def get(self):
+        publish_id = self.get_argument('publish_id', None)
+
+        db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
+        db.set_character_set('utf8')
+        db.set_character_set('utf8')
+        cursor = db.cursor()
+        cursor.execute('SET NAMES utf8;')
+        cursor.execute('SET CHARACTER SET utf8;')
+        cursor.execute('SET character_set_connection=utf8;')
+        sql = "select * from T_Reply where publish_id = '%s' order by id desc limit 100" % publish_id
+        outResult = []
+        for dbData in cursor.fetchall():
+            out_content = dbData[2]
+            out_time = dbData[4]
+            account = dbData[3]
+
+            result = {
+                "time" : out_time,
+                "content" : out_content,
+                "account" : account
+            }
+            outResult.append(result)
+
+        db.commit()
+        db.close()
+        self.write(json.dumps({"data": outResult}))
