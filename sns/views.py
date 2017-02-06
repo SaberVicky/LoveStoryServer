@@ -77,6 +77,12 @@ class GetPublishHandler(tornado.web.RequestHandler):
         cursor.execute(sql2)
         data2 = cursor.fetchone()
         coupleAccount = data2[7]
+        ownAvator = data2[6]
+
+        sql3 = "select * from T_User where user_account = '%s'" % coupleAccount
+        cursor.execute(sql3)
+        data3 = cursor.fetchone()
+        coupleAvator = data3[6]
 
         sql = "select * from T_Publish where user_account = '%s' or user_account = '%s'  order by id desc limit 10" % (account, coupleAccount)
         cursor.execute(sql)
@@ -86,10 +92,16 @@ class GetPublishHandler(tornado.web.RequestHandler):
             out_content = dbData[2]
             out_time = dbData[3]
             out_img_url = dbData[4]
+            account = dbData[1]
+            avator = ownAvator
+            if account == coupleAccount:
+                avator = coupleAvator
+
             result = {
                 "time" : out_time,
                 "content" : out_content,
-                "img_url" : out_img_url
+                "img_url" : out_img_url,
+                "avator" : avator
             }
             outResult.append(result)
             i = i + 1
