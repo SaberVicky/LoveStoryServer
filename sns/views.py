@@ -72,7 +72,13 @@ class GetPublishHandler(tornado.web.RequestHandler):
         cursor.execute('SET NAMES utf8;')
         cursor.execute('SET CHARACTER SET utf8;')
         cursor.execute('SET character_set_connection=utf8;')
-        sql = "select * from T_Publish where user_account = '%s' order by id desc limit 10" % account
+
+        sql2 = "select * from T_User where user_account = '%s'" % account
+        cursor.execute(sql2)
+        data2 = cursor.fetchone()
+        coupleAccount = data2[7]
+
+        sql = "select * from T_Publish where user_account = '%s' or user_account = '%s'  order by id desc limit 10" % (account, coupleAccount)
         cursor.execute(sql)
         outResult = []
         i = 0
@@ -292,6 +298,7 @@ class UserInfoHandler(tornado.web.RequestHandler):
         cursor.execute(sql)
         data = cursor.fetchone()
         coupleAccount = data[7]
+        result =  {}
         if (coupleAccount != None and coupleAccount != ""):
             sql2 = "select * from T_User where user_account = '%s'" % coupleAccount
             cursor.execute(sql2)
