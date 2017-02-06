@@ -18,7 +18,7 @@ urls = [
     (r"/pair", PairHandler),
     (r"/get_user_info", UserInfoHandler),
     (r"/reply", ReplyHandler),
-    (r"/get_reply, GetPeplyHandler")
+    (r"/get_reply", GetPeplyHandler)
 ]
 
 
