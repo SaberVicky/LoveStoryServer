@@ -93,6 +93,7 @@ class GetPublishHandler(tornado.web.RequestHandler):
             out_time = dbData[3]
             account = dbData[1]
             publish_id = dbData[0]
+            reply_count = dbData[4]
             avator = ownAvator
             if account == coupleAccount:
                 avator = coupleAvator
@@ -101,7 +102,8 @@ class GetPublishHandler(tornado.web.RequestHandler):
                 "publish_id" : publish_id,
                 "time" : out_time,
                 "content" : out_content,
-                "avator" : avator
+                "avator" : avator,
+                "reply_count": reply_count
             }
             outResult.append(result)
             i = i + 1
