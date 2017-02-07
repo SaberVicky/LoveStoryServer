@@ -377,7 +377,7 @@ class GetPeplyHandler(tornado.web.RequestHandler):
         cursor.execute('SET NAMES utf8;')
         cursor.execute('SET CHARACTER SET utf8;')
         cursor.execute('SET character_set_connection=utf8;')
-        sql = "select * from T_Reply where publish_id = '%s' order by id desc limit 100" % publish_id
+        sql = "select * from T_Reply where publish_id = '%s' order by id asc limit 100" % publish_id
         cursor.execute(sql)
         outResult = []
         for dbData in cursor.fetchall():
