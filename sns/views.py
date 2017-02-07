@@ -118,7 +118,6 @@ class PublishHandler(tornado.web.RequestHandler):
 
         text = self.get_argument('publish_text', None)
         account = self.get_argument('user_account', None)
-        img_url = self.get_argument('img_url', None)
         publishtime = time.time()
 
         db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
@@ -128,7 +127,7 @@ class PublishHandler(tornado.web.RequestHandler):
         cursor.execute('SET NAMES utf8;')
         cursor.execute('SET CHARACTER SET utf8;')
         cursor.execute('SET character_set_connection=utf8;')
-        sql = "INSERT INTO T_Publish(user_account, publish_content, publish_time, publish_img_url) VALUES ('%s', '%s', '%s', '%s')"  % (account, text, publishtime, img_url)
+        sql = "INSERT INTO T_Publish(user_account, publish_content, publish_time) VALUES ('%s', '%s', '%s')"  % (account, text, publishtime)
         cursor.execute(sql)
         db.commit()
         db.close()
