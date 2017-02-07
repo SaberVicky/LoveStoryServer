@@ -338,7 +338,7 @@ class ReplyHandler(tornado.web.RequestHandler):
     def post(self):
         account = self.get_argument('user_account', None)
         publish_id = self.get_argument('publish_id', None)
-        reply_content = self.get_argument('replu_content', None)
+        reply_content = self.get_argument('reply_content', None)
         publishtime = time.time()
 
         db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
@@ -348,6 +348,9 @@ class ReplyHandler(tornado.web.RequestHandler):
         cursor.execute('SET NAMES utf8;')
         cursor.execute('SET CHARACTER SET utf8;')
         cursor.execute('SET character_set_connection=utf8;')
+
+
+
         sql1 = "INSERT INTO T_Reply(publish_id, reply_content, reply_account, reply_time) VALUES ('%s', '%s', '%s', '%s')" % (publish_id, reply_content, account, publishtime)
         cursor.execute(sql1)
 
