@@ -117,6 +117,7 @@ class PublishHandler(tornado.web.RequestHandler):
     def get(self):
 
         text = self.get_argument('publish_text', None)
+        console.log(text)
         account = self.get_argument('user_account', None)
         publishtime = time.time()
 
