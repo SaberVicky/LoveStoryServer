@@ -66,12 +66,12 @@ class GetPublishHandler(tornado.web.RequestHandler):
         account = self.get_argument('user_account', None)
 
         db = MySQLdb.connect("127.0.0.1","root",db_password,"test")
-        db.set_character_set('utf8')
-        db.set_character_set('utf8')
+        db.set_character_set('utf8mb4')
+        db.set_character_set('utf8mb4')
         cursor = db.cursor()
-        cursor.execute('SET NAMES utf8;')
-        cursor.execute('SET CHARACTER SET utf8;')
-        cursor.execute('SET character_set_connection=utf8;')
+        cursor.execute('SET NAMES utf8mb4;')
+        cursor.execute('SET CHARACTER SET utf8mb4;')
+        cursor.execute('SET character_set_connection=utf8mb4;')
 
         sql2 = "select * from T_User where user_account = '%s'" % account
         cursor.execute(sql2)
