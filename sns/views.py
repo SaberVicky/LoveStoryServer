@@ -117,7 +117,6 @@ class PublishHandler(tornado.web.RequestHandler):
     def get(self):
 
         text = self.get_argument('publish_text', None)
-        print(text)
         account = self.get_argument('user_account', None)
         publishtime = time.time()
 
@@ -128,6 +127,9 @@ class PublishHandler(tornado.web.RequestHandler):
         cursor.execute('SET NAMES utf8;')
         cursor.execute('SET CHARACTER SET utf8;')
         cursor.execute('SET character_set_connection=utf8;')
+
+        sql2 = "ALTER TABLE T_Publish CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci"
+        cursor.execute(sql2)
         sql = "INSERT INTO T_Publish(user_account, publish_content, publish_time) VALUES ('%s', '%s', '%s')"  % (account, text, publishtime)
         cursor.execute(sql)
         db.commit()
