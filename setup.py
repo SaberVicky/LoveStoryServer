@@ -14,7 +14,7 @@ setup(name='sns',
           'redis',
           'MySQL-python',
           'tornado',
-          'qiniu',
+#          'qiniu',
       ],
       entry_points={
           'console_scripts': [
